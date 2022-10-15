@@ -1,10 +1,11 @@
 <script setup>
   import { ref, computed } from 'vue';
   import { useRouter } from 'vue-router';
-  import useCityStore from '@/stores/modules/useCity'
   import { storeToRefs } from 'pinia';
+  import useCityStore from '@/stores/modules/useCity'
+  import CityGroup from './cpns/city-group.vue'
 
-  
+
   const router = useRouter()
   // 搜索
   const searchValue = ref('')
@@ -16,7 +17,8 @@
   const cityStore = useCityStore()
   cityStore.fetchCityAllDataAction()
   const { allCities } = storeToRefs(cityStore)
-  const currentCityGroup = computed(() => allCities.value[currentTabActive.value])
+
+  // 
 
 </script>
 
@@ -41,16 +43,19 @@
     </div>
     <!-- 内容 -->
     <div class="content">
-      <div v-for="item in currentCityGroup?.cities">
-        {{item}}
-      </div>
+      <template v-for="(value, key) in allCities">
+        <CityGroup v-show="currentTabActive === key" :group-data="value"/>
+      </template>
     </div>
   </div>
 </template>
 
 <style lang="less" scoped>
   .city {
-    
+    .top {
+      position: relative;
+      z-index: 99999;
+    }
     .content {
       height: calc(100vh - 98px);
       overflow-y: auto;

@@ -1,6 +1,8 @@
 /* 公共css样式 */
 :root {
   --primary-color: #ff9854;
+  --primary-text1-color: #999;
+  --border-bottom-gary-color: #faf8f9;
 
   /* 修改vant ui库 */
   --van-search-left-icon-color: var(--primary-color) !important;

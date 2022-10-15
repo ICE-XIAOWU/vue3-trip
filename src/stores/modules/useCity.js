@@ -3,7 +3,10 @@ import { getCityAllData } from "@/service";
 
 const useCityStore = defineStore('city', {
   state: () => ({
-    allCities: {}
+    allCities: {},
+    currentCity: {
+      cityName: '广州'
+    }
   }),
   actions: {
     // 获取所有城市的数据
