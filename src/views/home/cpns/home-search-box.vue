@@ -1,6 +1,7 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { storeToRefs } from 'pinia'
   import useCityStore from '@/stores/modules/useCity';
   import useHomeStore from '@/stores/modules/useHome'
   import { formatMonthDay, getDiffDay } from '@/utils/formatDate'
@@ -10,6 +11,7 @@
 
   // 位置
   const cityStore = useCityStore()
+  const { currentCity } = storeToRefs(cityStore)
   const handleCityClick = () => {
     router.push('/city');
   }
@@ -44,8 +46,18 @@
 
   // 热门建议
   const homeStore = useHomeStore()
-  homeStore.fetchSuggestDataAction()
 
+  // 搜索按钮
+  const handleSearchBtnClick = () => {
+    router.push({
+      path: '/search',
+      query: {
+        startDate: startDate.value,
+        endDate: endDate.value,
+        currentCityName: currentCity.value.cityName
+      }
+    })
+  }
   
 </script>
 
@@ -53,7 +65,7 @@
   <div class="search-box">
     <!-- 位置 -->
     <div class="location boder-bottom-line">
-      <div class="city" @click="handleCityClick">{{ cityStore.currentCity.cityName }}</div>
+      <div class="city" @click="handleCityClick">{{ currentCity.cityName }}</div>
       <div class="position" @click="handleMyPositionClick">
         <span class="text">我的位置</span>
         <img src="@/assets/img/home/icon_location.png" alt="">
@@ -88,6 +100,11 @@
       <template v-for="item in homeStore.hotSuggests">
         <div class="suggest-item" :style="{ color: item.tagText.color, background: item.tagText.background.color }">{{ item.tagText.text }}</div>
       </template>
+    </div>
+
+    <!-- 搜索按钮 -->
+    <div class="search-btn search-item">
+      <div class="btn" @click="handleSearchBtnClick">开始搜索</div>
     </div>
   </div>
 </template>
@@ -162,6 +179,7 @@
     .hot-suggest {
       flex-wrap: wrap;
       justify-content: start;
+      height: auto;
       padding: 5px 20px;
 
       .suggest-item {
@@ -170,6 +188,22 @@
         font-size: 12px;
         line-height: 1;
         border-radius: 10px;
+      }
+    }
+
+    .search-btn {
+      padding-right: 20px;
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 38px;
+        font-size: 18px;
+        font-weight: 500;
+        border-radius: 20px;
+        color: #fff;
+        background-image: var(--theme-linear-gradient);
       }
     }
 

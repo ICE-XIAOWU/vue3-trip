@@ -1,10 +1,18 @@
 <!-- 使用vant -->
 <script setup>
+  import { ref, watch } from 'vue';
+  import { useRoute, useRouter } from 'vue-router'
   import tabBarData from '@/assets/local-data/tab-bar';
   import { getAssestImg } from '@/utils/getAssest';
-  import { ref } from 'vue';
-
+  
   const currentActive = ref(0);
+  const route = useRoute()
+
+  watch(route, (newValue) => {
+    const index = tabBarData.findIndex(item => item.path === newValue.path)
+    if(index !== -1) currentActive.value = index
+  })
+
 </script>
 
 <template>

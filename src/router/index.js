@@ -32,6 +32,14 @@ const routes = [
     meta: {
       hiddenTab: true
     }
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import('@/views/search/search.vue'),
+    meta: {
+      hiddenTab: true
+    }
   }
 ];
 
