@@ -5,8 +5,8 @@ import dayjs from 'dayjs'
  * @param { date } date 日期
  * @returns x月x日
  */
-export function formatMonthDay(date) {
-  return dayjs(date).format('MM月DD日')
+export function formatMonthDay(date, format = 'MM月DD日') {
+  return dayjs(date).format(format)
 }
 
 /**

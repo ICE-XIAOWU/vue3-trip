@@ -41,6 +41,7 @@
     <Transition>
       <SearchBar v-show="isShowSearchBar" />
     </Transition>
+
   </div>
 </template>
 

@@ -5,6 +5,10 @@
   import HouseItemV2 from '@/components/house-item-v2/house-item-v2.vue'
   import useHomeStore from '@/stores/modules/useHome.js';
   import useScroll from '@/hooks/useScroll.js'
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter()
+
 
   const homeStore = useHomeStore()
   const { houseList } = storeToRefs(homeStore)
@@ -18,6 +22,12 @@
       isReachBottom.value = false
     })
   })
+
+  // item点击
+  const handleItemClick = (id) => router.push({
+    path: `detail/${id}`
+  })
+  
 </script>
 
 <template>
@@ -25,8 +35,8 @@
     <h2 class="title">推荐精选</h2>
     <div class="content">
       <template v-for="item in houseList" :key="item.data.houseId">
-        <HouseItemV1 v-if="item.discoveryContentType === 9" :item-data="item.data" />
-        <HouseItemV2 v-if="item.discoveryContentType === 3" :item-data="item.data" />
+        <HouseItemV1 v-if="item.discoveryContentType === 9" :item-data="item.data" @click="handleItemClick(item.data.houseId)" />
+        <HouseItemV2 v-if="item.discoveryContentType === 3" :item-data="item.data" @click="handleItemClick(item.data.houseId)" />
       </template>
     </div>
   </div>

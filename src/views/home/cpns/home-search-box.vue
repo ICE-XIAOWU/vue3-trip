@@ -4,7 +4,9 @@
   import { storeToRefs } from 'pinia'
   import useCityStore from '@/stores/modules/useCity';
   import useHomeStore from '@/stores/modules/useHome'
+  import useMainStore from '@/stores/modules/useMain'
   import { formatMonthDay, getDiffDay } from '@/utils/formatDate'
+import { computed } from '@vue/reactivity';
 
   // router
   const router = useRouter()
@@ -24,13 +26,13 @@
   }
 
   // 日期
+  const mainStore = useMainStore()
+  const { startDate, endDate } = storeToRefs(mainStore)
   const calendarShow = ref(false)
-  // today 初始化入住日期 tomorrow 初始化离店日期 startDate 格式化后的入住日期 endDate 格式化后的离店日期 stayCount 停留天数
-  const today = new Date()
-  const tomorrow = new Date().setDate(today.getDate() + 1)
-  const startDate = ref(formatMonthDay(today))
-  const endDate = ref(formatMonthDay(tomorrow))
-  const stayCount = ref(getDiffDay(today, tomorrow))
+  // startDate 格式化后的入住日期 endDate 格式化后的离店日期 stayCount 停留天数
+  const startDateStr = computed(() => formatMonthDay(startDate.value))
+  const endDateStr = computed(() => formatMonthDay(endDate.value))
+  const stayCount = computed(() => getDiffDay(startDate.value, endDate.value))
 
   // 点击日期时的处理
   const handleDateClick = () => {
@@ -38,8 +40,8 @@
   }
   // 选择日期后的处理
   const handleSelectDateClick = ([selectStartDate, selectEndDate]) => {
-    startDate.value = formatMonthDay(selectStartDate)
-    endDate.value = formatMonthDay(selectEndDate)
+    mainStore.startDate = selectStartDate
+    mainStore.endDate = selectEndDate
     stayCount.value = getDiffDay(selectStartDate, selectEndDate)
     calendarShow.value = false
   }
@@ -76,12 +78,12 @@
     <div class="date-range search-item boder-bottom-line" @click="handleDateClick">
       <div class="start">
         <div class="text">入住</div>
-        <div class="date">{{ startDate }}</div>
+        <div class="date">{{ startDateStr }}</div>
       </div>
       <div class="stay">共 {{ stayCount }} 晚</div>
       <div class="end">
         <div class="text">离店</div>
-        <div class="date">{{ endDate }}</div>
+        <div class="date">{{ endDateStr }}</div>
       </div>
     </div>
     <van-calendar v-model:show="calendarShow" type="range" @confirm="handleSelectDateClick" color="#ff9854" :round="false" />

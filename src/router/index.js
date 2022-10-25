@@ -40,6 +40,14 @@ const routes = [
     meta: {
       hiddenTab: true
     }
+  },
+  {
+    name: 'detail',
+    path: '/detail/:id',
+    component: () => import('@/views/detail/detail.vue'),
+    meta: {
+      hiddenTab: true
+    }
   }
 ];
 
