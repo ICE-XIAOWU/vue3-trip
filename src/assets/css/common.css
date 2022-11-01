@@ -37,3 +37,11 @@ body {
   overflow: hidden;
 }
 
+
+.icon-check {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  background: url(../img/detail//icon_check.png) 0 0 / 100% 100%;
+}
